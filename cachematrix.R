@@ -9,7 +9,7 @@ makeCacheMatrix <- function(x = matrix()) {
 i<-NULL
 set<-function(y)
 {
-  x<<-y #difference environment
+  x<<-y #different environment
   i<<-NULL
 }
 get<-function()x
@@ -25,6 +25,15 @@ list(set=set,get=get,setinverse=setinverse,getinverse=getinverse)
 #retrieve the inverse from the cache
 
 cacheSolve <- function(x, ...) {
-
-
+  i<-x$getinverse()
+  if(!is.null(i)){ #if the inverse has already been calculated,
+    message("The cache is being fetched...") #print this line
+    return(i) #and function will return the previously calculated inverse
+  }
+  data<-x$get() #If not, compute inverse
+  i<-solve(data,...)
+  x$setinverse(i) #
+  return(i)
 }
+
+
